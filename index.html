@@ -48,8 +48,39 @@
 
 <p>The following editable content box contains the json data that will be posted to the Web-Zipper application. The format is fairly simple.</p>
     <pre><code id="json_data" contenteditable="true">
-
+        {
+        "files": [
+        {
+        "url": "http://www.ets.org/Media/Tests/GRE/pdf/gre%20practice%20general%20test.pdf",
+        "path": "required_filename_stored_in_root.pdf"
+        },
+        {
+        "url": "http://www.google.com",
+        "path": "this.is.some.foldername/homepage.html"
+        },
+        {
+        "url": "http://cdn.sstatic.net/apple/img/logo.png?v=123",
+        "path": "this.is.some.newfolder/logo.png"
+        }
+        ],
+        "webhook_url": "http://postcatcher.in/catchers/51aaaba38f59b20200000261"
+        }
     </code></pre>
+
+    <button id="submit" type="button">Generate Zip</button>
+    <script type="text/javascript">
+        $(function(){
+            $('#submit').click(function(){
+
+                var postData = $('#json_data').html();
+                console.log('post data', postData);
+                $.post('http://web-zipper.herokuapp.com/api/generate',JSON.stringify(postData), function(data){
+                    console.log('return data',data);
+                });
+            });
+
+        })
+    </script>
 <h3>
 <a name="motivation" class="anchor" href="#motivation"><span class="octicon octicon-link"></span></a>Motivation</h3>
 
