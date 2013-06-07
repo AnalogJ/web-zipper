@@ -1,0 +1,19 @@
+{
+  "name": "sparktree.zipper",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/analogj/node-angular-less-seed.git"
+  },
+  "dependencies": {
+    "director": "~1.2.0",
+    "node-persist": "0.0.1",
+    "node-uuid": "~1.4.0",
+    "request": "~2.21.0",
+    "adm-zip": "~0.4.3",
+    "async": "~0.2.9",
+    "mega": "~0.1.0",
+    "archiver": "~0.4.3"
+  }
+}

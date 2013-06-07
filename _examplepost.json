@@ -1,0 +1,17 @@
+{
+    "files": [
+        {
+            "url": "http://www.ets.org/Media/Tests/GRE/pdf/gre%20practice%20general%20test.pdf",
+            "path": "required_filename_stored_in_root.pdf"
+        },
+        {
+            "url": "http://www.google.com",
+            "path": "this.is.some.foldername/homepage.html"
+        },
+        {
+            "url": "http://cdn.sstatic.net/apple/img/logo.png?v=123",
+            "path": "this.is.some.newfolder/logo.png"
+        }
+    ],
+    "webhook_url": "http://postcatcher.in/catchers/51aaaba38f59b20200000261"
+}
