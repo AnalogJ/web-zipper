@@ -6,7 +6,7 @@ var http = require('http'),
 // create some logic to be routed to.
 //
 function empty() {
-    this.res.writeHead(200, { 'Content-Type': 'text/plain','Access-Control-Allow-Origin' : 'github.io' })
+    this.res.writeHead(200, { 'Content-Type': 'text/plain','Access-Control-Allow-Origin' : 'analogj.github.io' })
     this.res.end('');
 }
 function home() {
