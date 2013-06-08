@@ -14,25 +14,27 @@ var ERROR_CODES = {
     CLOUD_STORAGE : 2
 }
 
-
+exports.empty = function(req, res){
+    res.setHeader('Location', 'http://analogj.github.io/web-zipper/');
+    res.end('');
+}
 
 
 exports.generateZip = function ( req, res ){
 
-    var queryData = url.parse(this.req.url, true).query;
 
-    var postdata = this.req.body;
+    var postdata = req.body;
     if(!validate(postdata)){
         var errorJson = new FailureResp(null, ERROR_CODES.INVALID_POST_DATA, "Invalid Post Data");
 
-        this.res.writeHead(200, { 'Content-Type': 'application/json'})
+        res.setHeader('Content-Type', 'application/json');
 
 
-        if(queryData.callback){
-            this.res.end(queryData.callback + '('+ JSON.stringify(errorJson)+ ');');
+        if(req.query.callback){
+            res.send(req.query.callback + '('+ JSON.stringify(errorJson)+ ');');
         }
         else{
-            this.res.end(JSON.stringify(errorJson));
+            res.send(JSON.stringify(errorJson));
         }
 
         console.log('invalid post data:', postdata);
@@ -77,9 +79,14 @@ exports.generateZip = function ( req, res ){
 
     //ReadStream
 
-
-    this.res.writeHead(200, { 'Content-Type': 'text/plain' })
-    this.res.end(JSON.stringify(this.req.body));
+    if(req.query.callback){
+        res.setHeader('Content-Type','application/javascript');
+        res.send(req.query.callback + '('+ JSON.stringify(errorJson)+ ');');
+    }
+    else{
+        res.setHeader('Content-Type','application/javascript');
+        res.send(JSON.stringify(req.body));
+    }
 };
 /***
  * Generates an execution plan for the list of files.

@@ -1,50 +1,42 @@
 var http = require('http'),
-    routes = require('./routes'),
-    director = require('director');
+    routes = require('./routes');
+var express = require('express');
+var app = express();
 
-//
-// create some logic to be routed to.
-//
-function empty() {
-    this.res.writeHead(200, { 'Content-Type': 'text/plain'
-    })
-    this.res.end('');
+
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    //res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
 }
-function home() {
-    this.res.writeHead(302, {
-        'Location': 'http://analogj.github.io/web-zipper/'});
-    this.res.end();
-}
-//
-// define a routing table.
-//
-var router = new director.http.Router({
-    '/api/generate': {
-        post: routes.generateZip,
-        get: empty,
-        options:  empty
-    },
-    '/':{
-        get: home
-    }
+
+app.configure( function (){
+    app.use(allowCrossDomain);
+    app.use( express.logger());
+    app.use( express.bodyParser());
+    app.use( app.router );
 });
-//
-// setup a server and when there is a request, dispatch the
-// route that was requested in the request object.
-//
-var server = http.createServer(function (req, res) {
-    req.chunks = [];
-    req.on('data', function (chunk) {
-        req.chunks.push(chunk.toString());
-    });
-    router.dispatch(req, res, function (err) {
-        if (err) {
-            res.writeHead(404);
-            res.end();
-        }
-    });
+
+app.configure( 'development', function (){
+    app.use( express.errorHandler({ dumpExceptions : true, showStack : true }));
 });
+
+app.configure( 'production', function (){
+    app.use( express.errorHandler());
+});
+
+// Routes
+var routes = require( './routes' );
+app.all('/', routes.empty);
+app.get('/api/generate', routes.empty);
+app.post('/api/generate', routes.generateZip);
+app.options('/api/generate', routes.empty);
 
 // set the server to listen on port `8080`.
 //
-server.listen(process.env.PORT || 5000);
+var server = app.listen( process.env.PORT || 5000);
+
+console.log( 'Express server listening on port %d in %s mode', server.address().port, app.settings.env );
