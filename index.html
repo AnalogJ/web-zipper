@@ -7,7 +7,7 @@
     <meta name="description" content="Web-zipper : Web zip file generator. " />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <title>Web-zipper</title>
   </head>
 
@@ -75,16 +75,23 @@
                 var postData = $('#json_data').text();
                 //console.log('post data', postData);
                 var obj = JSON.parse(postData);
+                window.open(obj.webhook_url);
                 $(this).attr('disabled','disabled');
+
                 $.ajax('http://web-zipper.herokuapp.com/api/generate',{
                     contentType : 'application/json',
                     type : 'POST',
-                    data : postData
-                }, function(data){
-                    $(this).attr('disabled','');
-                    window.open(obj.webhook_url);
-                    console.log('return data',data);
-                });
+                    data : postData,
+                    dataType: 'json'
+                }).done(function(data){
+                            $('#submit').attr('disabled',null);
+
+                            console.log('return data',data);
+                            alert('Successfully started Zipping process. Check the PostCatcher/Webhook url for a response once the files have been compressed and uploaded to Mega.')
+                 }).fail(function(jqXHR, textStatus) {
+                            $('#submit').attr('disabled',null);
+                            alert( "Request failed: " + textStatus );
+                        });
 
             });
 
