@@ -73,14 +73,19 @@
             $('#submit').click(function(){
 
                 var postData = $('#json_data').text();
-                console.log('post data', postData);
+                //console.log('post data', postData);
+                var obj = JSON.parse(postData);
+                $(this).attr('disabled','disabled');
                 $.ajax('http://web-zipper.herokuapp.com/api/generate',{
                     contentType : 'application/json',
                     type : 'POST',
                     data : postData
                 }, function(data){
+                    $(this).attr('disabled','');
+                    window.open(obj.webhook_url);
                     console.log('return data',data);
                 });
+
             });
 
         })
