@@ -7,7 +7,7 @@ var http = require('http'),
 //
 function empty() {
     this.res.writeHead(200, { 'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin' : 'http://analogj.github.io',
+        'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'X-Requested-With',
         'Access-Control-Max-Age': '86400'
@@ -15,7 +15,12 @@ function empty() {
     this.res.end('');
 }
 function home() {
-    this.res.writeHead(302, {'Location': 'http://analogj.github.io/web-zipper/'});
+    this.res.writeHead(302, {
+        'Location': 'http://analogj.github.io/web-zipper/',
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With',
+        'Access-Control-Max-Age': '86400'});
     this.res.end();
 }
 //
