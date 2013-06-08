@@ -15,7 +15,7 @@ var ERROR_CODES = {
 }
 
 exports.empty = function(req, res){
-    res.setHeader('Location', 'http://analogj.github.io/web-zipper/');
+    res.writeHead(302,{'Location': 'http://analogj.github.io/web-zipper/'});
     res.end('');
 }
 
