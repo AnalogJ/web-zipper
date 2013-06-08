@@ -7,6 +7,7 @@ var util = require('util');
 var async = require('async');
 var request = require('request');
 var storage = require('../storage');
+var url = require('url');
 
 var ERROR_CODES = {
     INVALID_POST_DATA : 1,
@@ -18,12 +19,22 @@ var ERROR_CODES = {
 
 exports.generateZip = function ( req, res ){
 
+    var queryData = url.parse(this.req.url, true).query;
+
     var postdata = this.req.body;
     if(!validate(postdata)){
         var errorJson = new FailureResp(null, ERROR_CODES.INVALID_POST_DATA, "Invalid Post Data");
 
         this.res.writeHead(200, { 'Content-Type': 'application/json'})
-        this.res.end(JSON.stringify(errorJson));
+
+
+        if(queryData.callback){
+            this.res.end(queryData.callback + '('+ JSON.stringify(errorJson)+ ');');
+        }
+        else{
+            this.res.end(JSON.stringify(errorJson));
+        }
+
         console.log('invalid post data:', postdata);
         return;
     }
