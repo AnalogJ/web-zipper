@@ -6,7 +6,12 @@ var http = require('http'),
 // create some logic to be routed to.
 //
 function empty() {
-    this.res.writeHead(200, { 'Content-Type': 'text/plain','Access-Control-Allow-Origin' : 'http://analogj.github.io' })
+    this.res.writeHead(200, { 'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin' : 'http://analogj.github.io',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With',
+        'Access-Control-Max-Age': '86400'
+    })
     this.res.end('');
 }
 function home() {

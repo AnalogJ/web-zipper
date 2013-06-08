@@ -22,7 +22,11 @@ exports.generateZip = function ( req, res ){
     if(!validate(postdata)){
         var errorJson = new FailureResp(null, ERROR_CODES.INVALID_POST_DATA, "Invalid Post Data");
 
-        this.res.writeHead(200, { 'Content-Type': 'application/json','Access-Control-Allow-Origin' : 'http://analogj.github.io' })
+        this.res.writeHead(200, { 'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin' : 'http://analogj.github.io',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'X-Requested-With',
+            'Access-Control-Max-Age': '86400' })
         this.res.end(JSON.stringify(errorJson));
         console.log('invalid post data:', postdata);
         return;
